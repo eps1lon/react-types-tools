@@ -1,5 +1,5 @@
---- types/react/jsx-dev-runtime.d.ts	2024-03-04 17:07:39
-+++ types/react/ts5.0/jsx-dev-runtime.d.ts	2024-03-04 17:07:39
+--- types/react/jsx-runtime.d.ts	2024-03-13 12:15:03.376977832 +0100
++++ types/react/ts5.0/jsx-runtime.d.ts	2024-03-13 12:15:03.376977832 +0100
 @@ -2,7 +2,6 @@
  export { Fragment } from "./";
  
@@ -8,19 +8,9 @@
      interface Element extends React.JSX.Element {}
      interface ElementClass extends React.JSX.ElementClass {}
      interface ElementAttributesProperty extends React.JSX.ElementAttributesProperty {}
---- types/react/jsx-runtime.d.ts	2024-03-04 17:07:39
-+++ types/react/ts5.0/jsx-runtime.d.ts	2024-03-04 17:07:39
-@@ -2,7 +2,6 @@
- export { Fragment } from "./";
- 
- export namespace JSX {
--    type ElementType = React.JSX.ElementType;
-     interface Element extends React.JSX.Element {}
-     interface ElementClass extends React.JSX.ElementClass {}
-     interface ElementAttributesProperty extends React.JSX.ElementAttributesProperty {}
---- types/react/test/experimental.tsx	2024-01-02 19:21:39
-+++ types/react/ts5.0/test/experimental.tsx	2024-01-02 19:21:39
-@@ -88,6 +88,7 @@
+--- types/react/test/experimental.tsx	2024-03-13 12:15:03.376977832 +0100
++++ types/react/ts5.0/test/experimental.tsx	2024-03-13 12:15:03.376977832 +0100
+@@ -92,6 +92,7 @@
  
  function elementTypeTests() {
      const ReturnPromise = () => Promise.resolve("React");
@@ -28,7 +18,7 @@
      const FCPromise: React.FC = ReturnPromise;
      class RenderPromise extends React.Component {
          render() {
-@@ -95,7 +96,9 @@
+@@ -99,7 +100,9 @@
          }
      }
  
@@ -38,38 +28,9 @@
      React.createElement(ReturnPromise);
      <RenderPromise />;
      React.createElement(RenderPromise);
---- types/react/test/index.ts	2024-03-07 00:44:04
-+++ types/react/ts5.0/test/index.ts	2024-03-07 00:44:05
-@@ -179,6 +179,7 @@
- function FunctionComponent(props: SCProps) {
-     return props.foo ? React.createElement("div", null, props.foo) : null;
- }
-+
- FunctionComponent.displayName = "FunctionComponent";
- 
- const FunctionComponent2: React.FunctionComponent<SCProps> =
-@@ -189,6 +190,9 @@
- // allows null as props
- const FunctionComponent4: React.FunctionComponent = props => null;
- 
-+// undesired: Rejects `false` because of https://github.com/DefinitelyTyped/DefinitelyTyped/issues/18051
-+// leaving here to document limitation and inspect error message
-+// @ts-expect-error
- const FunctionComponent5: React.FunctionComponent = () => false;
- 
- // React.createElement
-@@ -422,7 +426,7 @@
- // Attributes
- // --------------------------------------------------------------------------
- 
--const children: any[] = ["Hello world", [null], React.createElement("span")];
-+const children: any[] = ["Hello world", [null], React.createElement("span", null)];
- const divStyle: React.CSSProperties = { // CSSProperties
-     flex: "1 1 main-size",
-     backgroundImage: "url('hello.png')",
---- types/react/test/tsx.tsx	2024-03-07 00:44:04
-+++ types/react/ts5.0/test/tsx.tsx	2024-03-07 00:44:05
-@@ -616,15 +616,12 @@
+--- types/react/test/tsx.tsx	2024-03-15 11:04:27.053038307 +0100
++++ types/react/ts5.0/test/tsx.tsx	2024-03-13 12:15:03.376977832 +0100
+@@ -682,15 +682,12 @@
  
  function elementTypeTests() {
      const ReturnVoid = () => {};
@@ -85,7 +46,7 @@
      class RenderUndefined extends React.Component {
          render() {
              return undefined;
-@@ -632,7 +629,6 @@
+@@ -698,7 +695,6 @@
      }
  
      const ReturnNull = () => null;
@@ -93,7 +54,7 @@
      class RenderNull extends React.Component {
          render() {
              return null;
-@@ -640,7 +636,6 @@
+@@ -706,7 +702,6 @@
      }
  
      const ReturnNumber = () => 0xeac1;
@@ -101,7 +62,7 @@
      class RenderNumber extends React.Component {
          render() {
              return 0xeac1;
-@@ -648,7 +643,6 @@
+@@ -714,7 +709,6 @@
      }
  
      const ReturnString = () => "Hello, Dave!";
@@ -109,7 +70,7 @@
      class RenderString extends React.Component {
          render() {
              return "Hello, Dave!";
-@@ -656,8 +650,6 @@
+@@ -722,8 +716,6 @@
      }
  
      const ReturnSymbol = () => Symbol.for("react");
@@ -118,7 +79,7 @@
      class RenderSymbol extends React.Component {
          // @ts-expect-error
          render() {
-@@ -666,7 +658,6 @@
+@@ -732,7 +724,6 @@
      }
  
      const ReturnArray = () => [<div key="one" />];
@@ -126,7 +87,7 @@
      class RenderArray extends React.Component {
          render() {
              return [<div key="one" />];
-@@ -674,7 +665,6 @@
+@@ -740,7 +731,6 @@
      }
  
      const ReturnElement = () => <div />;
@@ -134,7 +95,7 @@
      class RenderElement extends React.Component {
          render() {
              return <div />;
-@@ -682,7 +672,6 @@
+@@ -748,7 +738,6 @@
      }
  
      const ReturnReactNode = ({ children }: { children?: React.ReactNode }) => children;
@@ -142,7 +103,7 @@
      class RenderReactNode extends React.Component<{ children?: React.ReactNode }> {
          render() {
              return this.props.children;
-@@ -690,7 +679,7 @@
+@@ -756,7 +745,7 @@
      }
  
      const ReturnPromise = () => Promise.resolve("React");
@@ -151,7 +112,7 @@
      const FCPromise: React.FC = ReturnPromise;
      class RenderPromise extends React.Component {
          // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
-@@ -719,8 +708,10 @@
+@@ -798,8 +787,10 @@
      // @ts-expect-error
      React.createElement(RenderVoid);
  
@@ -163,7 +124,7 @@
      React.createElement(ReturnUndefined);
      <RenderUndefined />;
      React.createElement(RenderUndefined);
-@@ -731,14 +722,18 @@
+@@ -810,14 +801,18 @@
      <RenderNull />;
      React.createElement(RenderNull);
  
@@ -184,7 +145,7 @@
      React.createElement(ReturnString);
      <RenderString />;
      React.createElement(RenderString);
-@@ -753,7 +748,10 @@
+@@ -832,7 +827,10 @@
      // @ts-expect-error
      React.createElement(RenderSymbol);
  
@@ -195,7 +156,7 @@
      React.createElement(ReturnArray);
      <RenderArray />;
      React.createElement(RenderArray);
-@@ -764,15 +762,17 @@
+@@ -843,15 +841,17 @@
      <RenderElement />;
      React.createElement(RenderElement);
  
@@ -216,35 +177,56 @@
      React.createElement(ReturnPromise);
      // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
      <RenderPromise />;
---- types/react/index.d.ts	2024-03-07 00:44:04
-+++ types/react/ts5.0/index.d.ts	2024-03-07 00:44:05
-@@ -113,7 +113,7 @@
-     type JSXElementConstructor<P> =
-         | ((
-             props: P,
+--- types/react/test/index.ts	2024-03-15 11:04:27.053038307 +0100
++++ types/react/ts5.0/test/index.ts	2024-03-13 12:15:03.376977832 +0100
+@@ -220,6 +220,9 @@
+ // allows null as props
+ const FunctionComponent4: React.FunctionComponent = props => null;
+ 
++// undesired: Rejects `false` because of https://github.com/DefinitelyTyped/DefinitelyTyped/issues/18051
++// leaving here to document limitation and inspect error message
++// @ts-expect-error
+ const FunctionComponent5: React.FunctionComponent = () => false;
+ 
+ // React.createFactory
+@@ -466,7 +469,7 @@
+ // Attributes
+ // --------------------------------------------------------------------------
+ 
+-const children: any[] = ["Hello world", [null], React.createElement("span")];
++const children: any[] = ["Hello world", [null], React.createElement("span", null)];
+ const divStyle: React.CSSProperties = { // CSSProperties
+     flex: "1 1 main-size",
+     backgroundImage: "url('hello.png')",
+--- types/react/index.d.ts	2024-03-15 11:55:05.312154319 +0100
++++ types/react/ts5.0/index.d.ts	2024-03-15 12:08:41.708293871 +0100
+@@ -122,7 +122,7 @@
+              * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}
+              */
+             deprecatedLegacyContext?: any,
 -        ) => ReactNode)
 +        ) => ReactElement<any, any> | null)
          | (new(
              props: P,
-         ) => Component<any, any>);
-@@ -191,7 +191,7 @@
+             /**
+@@ -213,7 +213,7 @@
          C extends
              | ForwardRefExoticComponent<any>
              | { new(props: any): Component<any> }
--            | ((props: any) => ReactNode)
-+            | ((props: any) => ReactElement | null)
+-            | ((props: any, context?: any) => ReactNode)
++            | ((props: any, context?: any) => ReactElement | null)
              | keyof JSX.IntrinsicElements,
-     > = ComponentRef<C>;
- 
-@@ -361,6 +361,7 @@
-     }
+     > =
+         // need to check first if `ref` is a valid prop for ts@3.0
+@@ -431,6 +431,7 @@
+     type ReactFragment = Iterable<ReactNode>;
  
      /**
 +     * For internal usage only.
       * Different release channels declare additional types of ReactNode this particular release channel accepts.
       * App or library types should never augment this interface.
       */
-@@ -527,7 +528,7 @@
+@@ -617,7 +618,7 @@
       * @template P The props the component accepts.
       */
      interface ExoticComponent<P = {}> {
@@ -253,16 +235,25 @@
          readonly $$typeof: symbol;
      }
  
-@@ -999,7 +1000,7 @@
+@@ -1097,7 +1098,7 @@
       * ```
       */
      interface FunctionComponent<P = {}> {
--        (props: P): ReactNode;
+-        (props: P, context?: any): ReactNode;
 +        (props: P, context?: any): ReactElement<any, any> | null;
          /**
-          * Ignored by React.
-          * @deprecated Only kept in types for backwards compatibility. Will be removed in a futre major release.
-@@ -1053,7 +1054,7 @@
+          * Used to declare the types of the props accepted by the
+          * component. These types will be checked during rendering
+@@ -1174,7 +1175,7 @@
+      * @see {@link React.FunctionComponent}
+      */
+     interface VoidFunctionComponent<P = {}> {
+-        (props: P, context?: any): ReactNode;
++        (props: P, context?: any): ReactElement<any, any> | null;
+         propTypes?: WeakValidationMap<P> | undefined;
+         contextTypes?: ValidationMap<any> | undefined;
+         defaultProps?: Partial<P> | undefined;
+@@ -1202,7 +1203,7 @@
       * @see {@link forwardRef}
       */
      interface ForwardRefRenderFunction<T, P = {}> {
@@ -271,9 +262,17 @@
          /**
           * Used in debugging messages. You might want to set it
           * explicitly if you want to display a different name for
-@@ -3934,18 +3935,6 @@
+@@ -4175,7 +4176,6 @@
  
      // Keep in sync with JSX namespace in ./jsx-runtime.d.ts and ./jsx-dev-runtime.d.ts
+     namespace JSX {
+-        type ElementType = GlobalJSXElementType;
+         interface Element extends GlobalJSXElement {}
+         interface ElementClass extends GlobalJSXElementClass {}
+         interface ElementAttributesProperty extends GlobalJSXElementAttributesProperty {}
+@@ -4237,18 +4237,6 @@
+      * @deprecated Use `React.JSX` instead of the global `JSX` namespace.
+      */
      namespace JSX {
 -        // We don't just alias React.ElementType because React.ElementType
 -        // historically does more than we need it to.
@@ -290,3 +289,21 @@
          interface Element extends React.ReactElement<any, any> {}
          interface ElementClass extends React.Component<any> {
              render(): React.ReactNode;
+@@ -4462,7 +4450,6 @@
+ // React.JSX needs to point to global.JSX to keep global module augmentations intact.
+ // But we can't access global.JSX so we need to create these aliases instead.
+ // Once the global JSX namespace will be removed we replace React.JSX with the contents of global.JSX
+-type GlobalJSXElementType = JSX.ElementType;
+ interface GlobalJSXElement extends JSX.Element {}
+ interface GlobalJSXElementClass extends JSX.ElementClass {}
+ interface GlobalJSXElementAttributesProperty extends JSX.ElementAttributesProperty {}
+--- types/react/jsx-dev-runtime.d.ts	2024-03-13 12:15:03.376977832 +0100
++++ types/react/ts5.0/jsx-dev-runtime.d.ts	2024-03-13 12:15:03.376977832 +0100
+@@ -2,7 +2,6 @@
+ export { Fragment } from "./";
+ 
+ export namespace JSX {
+-    type ElementType = React.JSX.ElementType;
+     interface Element extends React.JSX.Element {}
+     interface ElementClass extends React.JSX.ElementClass {}
+     interface ElementAttributesProperty extends React.JSX.ElementAttributesProperty {}
