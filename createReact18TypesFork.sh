@@ -48,7 +48,10 @@ rm react-is/v18/test/canary-tests.tsx
 
 popd
 
-git apply << 'EOF'
+# Stage so that it's easier to amend to patch if apply fails.
+git add -A
+
+git apply --reject << 'EOF'
 diff --git a/types/react/package.json b/types/react/package.json
 index 956f755cc6..41977a0a7b 100644
 --- a/types/react/package.json
@@ -275,15 +278,6 @@ index 956f755cc6..1308de577a 100644
          "./jsx-runtime": {
              "types@<=5.0": {
                  "default": "./ts5.0/jsx-runtime.d.ts"
-@@ -68,7 +52,7 @@
-         "@types/react-addons-pure-render-mixin": "*",
-         "@types/react-addons-shallow-compare": "*",
-         "@types/react-addons-update": "*",
--        "@types/react-dom": "*",
-+        "@types/react-dom": "^18",
-         "@types/react-dom-factories": "*",
-         "@types/trusted-types": "*"
-     },
 diff --git a/types/react-dom/.npmignore b/types/react-dom/.npmignore
 index 3d6bac44b6..c7676c2d49 100644
 --- a/types/react-dom/.npmignore
