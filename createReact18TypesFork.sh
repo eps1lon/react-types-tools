@@ -46,12 +46,35 @@ rm -rf react-is/v18/v17
 rm react-is/v18/canary.d.ts
 rm react-is/v18/test/canary-tests.tsx
 
+# react-test-renderer
+for file in $(git ls-files "react-test-renderer/*"); do 
+  dir=$(dirname "${file#react-test-renderer/}")
+  mkdir -p "react-test-renderer/v18/$dir"
+  cp "$file" "react-test-renderer/v18/$dir"
+done
+
+rm -rf react-test-renderer/v18/v15
+rm -rf react-test-renderer/v18/v16
+rm -rf react-test-renderer/v18/v17
+
 popd
 
 # Stage so that it's easier to amend to patch if apply fails.
 git add -A
 
 git apply --reject << 'EOF'
+diff --git a/attw.json b/attw.json
+index 7edc602be9..d2e2aa058f 100644
+--- a/attw.json
++++ b/attw.json
+@@ -1508,6 +1508,7 @@
+         "react-document-meta",
+         "react-document-title",
+         "react-dom",
++        "react-dom/v18",
+         "react-dual-listbox",
+         "react-dynamic-number",
+         "react-email-editor",
 diff --git a/types/react-dom/.npmignore b/types/react-dom/.npmignore
 index 3d6bac44b6..c7676c2d49 100644
 --- a/types/react-dom/.npmignore
@@ -210,6 +233,52 @@ index f2311edb57..a13e47bbf3 100644
 +        "test/react-is-tests.tsx"
      ]
  }
+diff --git a/types/react-test-renderer/.npmignore b/types/react-test-renderer/.npmignore
+index 3d6bac44b6..c7676c2d49 100644
+--- a/types/react-test-renderer/.npmignore
++++ b/types/react-test-renderer/.npmignore
+@@ -6,3 +6,4 @@
+ /v15/
+ /v16/
+ /v17/
++/v18/
+diff --git a/types/react-test-renderer/package.json b/types/react-test-renderer/package.json
+index 127a164a97..786b7f3a9f 100644
+--- a/types/react-test-renderer/package.json
++++ b/types/react-test-renderer/package.json
+@@ -1,7 +1,7 @@
+ {
+     "private": true,
+     "name": "@types/react-test-renderer",
+-    "version": "18.0.9999",
++    "version": "19.0.9999",
+     "projects": [
+         "https://facebook.github.io/react/"
+     ],
+diff --git a/types/react-test-renderer/v18/.npmignore b/types/react-test-renderer/v18/.npmignore
+index 3d6bac44b6..93e307400a 100644
+--- a/types/react-test-renderer/v18/.npmignore
++++ b/types/react-test-renderer/v18/.npmignore
+@@ -3,6 +3,3 @@
+ !**/*.d.cts
+ !**/*.d.mts
+ !**/*.d.*.ts
+-/v15/
+-/v16/
+-/v17/
+diff --git a/types/react-test-renderer/v18/package.json b/types/react-test-renderer/v18/package.json
+index 127a164a97..8f4fcf3cc6 100644
+--- a/types/react-test-renderer/v18/package.json
++++ b/types/react-test-renderer/v18/package.json
+@@ -6,7 +6,7 @@
+         "https://facebook.github.io/react/"
+     ],
+     "dependencies": {
+-        "@types/react": "*"
++        "@types/react": "^18"
+     },
+     "devDependencies": {
+         "@types/react-test-renderer": "workspace:."
 diff --git a/types/react/.npmignore b/types/react/.npmignore
 index 3d6bac44b6..c7676c2d49 100644
 --- a/types/react/.npmignore
@@ -335,16 +404,5 @@ index 4fd7cfece3..6791beaaa2 100644
 +        }
      }
  }
-diff --git a/attw.json b/attw.json
-index 7edc602be9..d2e2aa058f 100644
---- a/attw.json
-+++ b/attw.json
-@@ -1508,6 +1508,7 @@
-         "react-document-meta",
-         "react-document-title",
-         "react-dom",
-+        "react-dom/v18",
-         "react-dual-listbox",
-         "react-dynamic-number",
-         "react-email-editor",
+
 EOF
