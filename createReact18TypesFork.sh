@@ -339,6 +339,146 @@ index 5e44959bca..7af448dbb7 100644
          "./jsx-runtime": {
              "types@<=5.0": {
                  "default": "./ts5.0/jsx-runtime.d.ts"
+diff --git a/types/react/v18/test/elementAttributes.tsx b/types/react/v18/test/elementAttributes.tsx
+index a225ebdee7..03c1422746 100644
+--- a/types/react/v18/test/elementAttributes.tsx
++++ b/types/react/v18/test/elementAttributes.tsx
+@@ -131,26 +131,26 @@ const eventCallbacksTestCases = [
+ 
+ function formActionsTest() {
+     <form
+-        // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++        // @ts-expect-error Form Actions are not supported in React 18.
+         action={formData => {
+-            // $ExpectType FormData
++            // $ExpectType any
+             formData;
+         }}
+     >
+         <input type="text" name="title" defaultValue="Hello" />
+         <input
+             type="submit"
+-            // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++            // @ts-expect-error Form Actions are not supported in React 18.
+             formAction={formData => {
+-                // $ExpectType FormData
++                // $ExpectType any
+                 formData;
+             }}
+             value="Save"
+         />
+         <button
+-            // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++            // @ts-expect-error Form Actions are not supported in React 18.
+             formAction={formData => {
+-                // $ExpectType FormData
++                // $ExpectType any
+                 formData;
+             }}
+         >
+diff --git a/types/react/v18/test/hooks.tsx b/types/react/v18/test/hooks.tsx
+index a0f473a92e..a74726ce29 100644
+--- a/types/react/v18/test/hooks.tsx
++++ b/types/react/v18/test/hooks.tsx
+@@ -371,7 +371,7 @@ function useConcurrentHooks() {
+ 
+         // The function must be synchronous, even if it can start an asynchronous update
+         // it's no different from an useEffect callback in this respect
+-        // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++        // @ts-expect-error
+         startTransition(async () => {});
+ 
+         // Unlike Effect callbacks, though, there is no possible destructor to return
+diff --git a/types/react/v18/test/index.ts b/types/react/v18/test/index.ts
+index 7f6e9267cb..b0fdfc8b8e 100644
+--- a/types/react/v18/test/index.ts
++++ b/types/react/v18/test/index.ts
+@@ -718,11 +718,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
+     const emptyObject: React.ReactNode = {};
+     // @ts-expect-error
+     const plainObject: React.ReactNode = { dave: true };
+-    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++    // @ts-expect-error Promises as ReactNode is not supported in React 18.
+     const promise: React.ReactNode = Promise.resolve("React");
+ 
+     const asyncTests = async function asyncTests() {
+-        // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
+         const node: Awaited<React.ReactNode> = await Promise.resolve("React");
+     };
+ }
+diff --git a/types/react/v18/test/tsx.tsx b/types/react/v18/test/tsx.tsx
+index 9bbf90786c..dad9ee4a2b 100644
+--- a/types/react/v18/test/tsx.tsx
++++ b/types/react/v18/test/tsx.tsx
+@@ -546,7 +546,7 @@ imgProps.loading = "nonsense";
+ // @ts-expect-error
+ imgProps.decoding = "nonsense";
+ type ImgPropsWithRef = React.ComponentPropsWithRef<"img">;
+-// $ExpectType ((instance: HTMLImageElement | null) => void | (() => VoidOrUndefinedOnly)) | RefObject<HTMLImageElement> | null | undefined
++// $ExpectType ((instance: HTMLImageElement | null) => void) | RefObject<HTMLImageElement> | null | undefined
+ type ImgPropsWithRefRef = ImgPropsWithRef["ref"];
+ type ImgPropsWithoutRef = React.ComponentPropsWithoutRef<"img">;
+ // $ExpectType false
+@@ -676,7 +676,7 @@ function reactNodeTests() {
+     <div>{createChildren()}</div>;
+     // @ts-expect-error plain objects are not allowed
+     <div>{{ dave: true }}</div>;
+-    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++    // @ts-expect-error Promises as ReactNode is not supported in React 18.
+     <div>{Promise.resolve("React")}</div>;
+ }
+ 
+@@ -756,10 +756,10 @@ function elementTypeTests() {
+     }
+ 
+     const ReturnPromise = () => Promise.resolve("React");
+-    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++    // @ts-expect-error Async components are not supported in React 18.
+     const FCPromise: React.FC = ReturnPromise;
+     class RenderPromise extends React.Component {
+-        // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++        // @ts-expect-error Async components are not supported in React 18.
+         render() {
+             return Promise.resolve("React");
+         }
+@@ -849,13 +849,13 @@ function elementTypeTests() {
+     <RenderReactNode />;
+     React.createElement(RenderReactNode);
+ 
+-    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++    // @ts-expect-error Async components are not supported in React 18.
+     <ReturnPromise />;
+-    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++    // @ts-expect-error Async components are not supported in React 18.
+     React.createElement(ReturnPromise);
+-    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++    // @ts-expect-error Async components are not supported in React 18.
+     <RenderPromise />;
+-    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++    // @ts-expect-error Async components are not supported in React 18.
+     React.createElement(RenderPromise);
+ 
+     <ReturnWithLegacyContext foo="one" />;
+@@ -917,8 +917,7 @@ function managingRefs() {
+         }}
+     />;
+     <div
+-        // Will not issue an error in a real project but does here since canary.d.ts is part of compilation.
+-        // @ts-expect-error
++        // Ref cleanup is accidentally supported in React 18.
+         ref={current => {
+             // @ts-expect-error
+             return function refCleanup(implicitAny) {
+@@ -926,8 +925,7 @@ function managingRefs() {
+         }}
+     />;
+     <div
+-        // Will not issue an error in a real project but does here since canary.d.ts is part of compilation.
+-        // @ts-expect-error
++        // Ref cleanup is accidentally supported in React 18.
+         ref={current => {
+             return function refCleanup(neverPassed: string) {
+             };
 diff --git a/types/react/v18/ts5.0/OTHER_FILES.txt b/types/react/v18/ts5.0/OTHER_FILES.txt
 index 949a9c6213..d830e68845 100644
 --- a/types/react/v18/ts5.0/OTHER_FILES.txt
@@ -348,6 +488,136 @@ index 949a9c6213..d830e68845 100644
 -experimental.d.ts
  jsx-dev-runtime.d.ts
  jsx-runtime.d.ts
+diff --git a/types/react/v18/ts5.0/test/elementAttributes.tsx b/types/react/v18/ts5.0/test/elementAttributes.tsx
+index a225ebdee7..03c1422746 100644
+--- a/types/react/v18/ts5.0/test/elementAttributes.tsx
++++ b/types/react/v18/ts5.0/test/elementAttributes.tsx
+@@ -131,26 +131,26 @@ const eventCallbacksTestCases = [
+ 
+ function formActionsTest() {
+     <form
+-        // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++        // @ts-expect-error Form Actions are not supported in React 18.
+         action={formData => {
+-            // $ExpectType FormData
++            // $ExpectType any
+             formData;
+         }}
+     >
+         <input type="text" name="title" defaultValue="Hello" />
+         <input
+             type="submit"
+-            // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++            // @ts-expect-error Form Actions are not supported in React 18.
+             formAction={formData => {
+-                // $ExpectType FormData
++                // $ExpectType any
+                 formData;
+             }}
+             value="Save"
+         />
+         <button
+-            // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++            // @ts-expect-error Form Actions are not supported in React 18.
+             formAction={formData => {
+-                // $ExpectType FormData
++                // $ExpectType any
+                 formData;
+             }}
+         >
+diff --git a/types/react/v18/ts5.0/test/hooks.tsx b/types/react/v18/ts5.0/test/hooks.tsx
+index a0f473a92e..a74726ce29 100644
+--- a/types/react/v18/ts5.0/test/hooks.tsx
++++ b/types/react/v18/ts5.0/test/hooks.tsx
+@@ -371,7 +371,7 @@ function useConcurrentHooks() {
+ 
+         // The function must be synchronous, even if it can start an asynchronous update
+         // it's no different from an useEffect callback in this respect
+-        // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++        // @ts-expect-error
+         startTransition(async () => {});
+ 
+         // Unlike Effect callbacks, though, there is no possible destructor to return
+diff --git a/types/react/v18/ts5.0/test/index.ts b/types/react/v18/ts5.0/test/index.ts
+index dbb1a7f7ba..36b288beee 100644
+--- a/types/react/v18/ts5.0/test/index.ts
++++ b/types/react/v18/ts5.0/test/index.ts
+@@ -721,11 +721,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
+     const emptyObject: React.ReactNode = {};
+     // @ts-expect-error
+     const plainObject: React.ReactNode = { dave: true };
+-    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++    // @ts-expect-error Promises as ReactNode is not supported in React 18.
+     const promise: React.ReactNode = Promise.resolve("React");
+ 
+     const asyncTests = async function asyncTests() {
+-        // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
+         const node: Awaited<React.ReactNode> = await Promise.resolve("React");
+     };
+ }
+diff --git a/types/react/v18/ts5.0/test/tsx.tsx b/types/react/v18/ts5.0/test/tsx.tsx
+index 994749830b..464be545bd 100644
+--- a/types/react/v18/ts5.0/test/tsx.tsx
++++ b/types/react/v18/ts5.0/test/tsx.tsx
+@@ -546,7 +546,7 @@ imgProps.loading = "nonsense";
+ // @ts-expect-error
+ imgProps.decoding = "nonsense";
+ type ImgPropsWithRef = React.ComponentPropsWithRef<"img">;
+-// $ExpectType ((instance: HTMLImageElement | null) => void | (() => VoidOrUndefinedOnly)) | RefObject<HTMLImageElement> | null | undefined
++// $ExpectType ((instance: HTMLImageElement | null) => void) | RefObject<HTMLImageElement> | null | undefined
+ type ImgPropsWithRefRef = ImgPropsWithRef["ref"];
+ type ImgPropsWithoutRef = React.ComponentPropsWithoutRef<"img">;
+ // $ExpectType false
+@@ -676,7 +676,7 @@ function reactNodeTests() {
+     <div>{createChildren()}</div>;
+     // @ts-expect-error plain objects are not allowed
+     <div>{{ dave: true }}</div>;
+-    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++    // @ts-expect-error Promises as ReactNode is not supported in React 18.
+     <div>{Promise.resolve("React")}</div>;
+ }
+ 
+@@ -748,7 +748,7 @@ function elementTypeTests() {
+     // @ts-expect-error experimental release channel only
+     const FCPromise: React.FC = ReturnPromise;
+     class RenderPromise extends React.Component {
+-        // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++        // @ts-expect-error Async components are not supported in React 18.
+         render() {
+             return Promise.resolve("React");
+         }
+@@ -853,9 +853,9 @@ function elementTypeTests() {
+     <ReturnPromise />;
+     // @ts-expect-error Only available in experimental release channel
+     React.createElement(ReturnPromise);
+-    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++    // @ts-expect-error Async components are not supported in React 18.
+     <RenderPromise />;
+-    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++    // @ts-expect-error Async components are not supported in React 18.
+     React.createElement(RenderPromise);
+ 
+     <ReturnWithLegacyContext foo="one" />;
+@@ -917,8 +917,7 @@ function managingRefs() {
+         }}
+     />;
+     <div
+-        // Will not issue an error in a real project but does here since canary.d.ts is part of compilation.
+-        // @ts-expect-error
++        // Ref cleanup is accidentally supported in React 18.
+         ref={current => {
+             // @ts-expect-error
+             return function refCleanup(implicitAny) {
+@@ -926,8 +925,7 @@ function managingRefs() {
+         }}
+     />;
+     <div
+-        // Will not issue an error in a real project but does here since canary.d.ts is part of compilation.
+-        // @ts-expect-error
++        // Ref cleanup is accidentally supported in React 18.
+         ref={current => {
+             return function refCleanup(neverPassed: string) {
+             };
 diff --git a/types/react/v18/ts5.0/tsconfig.json b/types/react/v18/ts5.0/tsconfig.json
 index 4fd7cfece3..6791beaaa2 100644
 --- a/types/react/v18/ts5.0/tsconfig.json
