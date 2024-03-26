@@ -1,5 +1,5 @@
---- types/react/jsx-runtime.d.ts	2024-03-23 20:26:29.059115816 +0100
-+++ types/react/ts5.0/jsx-runtime.d.ts	2024-03-23 20:26:29.063115906 +0100
+--- types/react//jsx-dev-runtime.d.ts	2024-03-26 16:07:49
++++ types/react//ts5.0//jsx-dev-runtime.d.ts	2024-03-26 16:07:49
 @@ -2,7 +2,6 @@
  export { Fragment } from "./";
  
@@ -8,8 +8,18 @@
      interface Element extends React.JSX.Element {}
      interface ElementClass extends React.JSX.ElementClass {}
      interface ElementAttributesProperty extends React.JSX.ElementAttributesProperty {}
---- types/react/test/experimental.tsx	2024-03-23 20:26:29.059115816 +0100
-+++ types/react/ts5.0/test/experimental.tsx	2024-03-23 20:26:29.063115906 +0100
+--- types/react//jsx-runtime.d.ts	2024-03-26 16:07:49
++++ types/react//ts5.0//jsx-runtime.d.ts	2024-03-26 16:07:49
+@@ -2,7 +2,6 @@
+ export { Fragment } from "./";
+ 
+ export namespace JSX {
+-    type ElementType = React.JSX.ElementType;
+     interface Element extends React.JSX.Element {}
+     interface ElementClass extends React.JSX.ElementClass {}
+     interface ElementAttributesProperty extends React.JSX.ElementAttributesProperty {}
+--- types/react//test/experimental.tsx	2024-03-27 00:43:13
++++ types/react//ts5.0//test/experimental.tsx	2024-03-27 00:43:13
 @@ -92,6 +92,7 @@
  
  function elementTypeTests() {
@@ -28,8 +38,29 @@
      React.createElement(ReturnPromise);
      <RenderPromise />;
      React.createElement(RenderPromise);
---- types/react/test/tsx.tsx	2024-03-23 20:28:56.758449606 +0100
-+++ types/react/ts5.0/test/tsx.tsx	2024-03-23 20:28:07.089325836 +0100
+--- types/react//test/index.ts	2024-03-27 00:43:13
++++ types/react//ts5.0//test/index.ts	2024-03-27 00:43:13
+@@ -235,6 +235,9 @@
+ // allows null as props
+ const FunctionComponent4: React.FunctionComponent = props => null;
+ 
++// undesired: Rejects `false` because of https://github.com/DefinitelyTyped/DefinitelyTyped/issues/18051
++// leaving here to document limitation and inspect error message
++// @ts-expect-error
+ const FunctionComponent5: React.FunctionComponent = () => false;
+ 
+ // React.createFactory
+@@ -487,7 +490,7 @@
+ // Attributes
+ // --------------------------------------------------------------------------
+ 
+-const children: any[] = ["Hello world", [null], React.createElement("span")];
++const children: any[] = ["Hello world", [null], React.createElement("span", null)];
+ const divStyle: React.CSSProperties = { // CSSProperties
+     flex: "1 1 main-size",
+     backgroundImage: "url('hello.png')",
+--- types/react//test/tsx.tsx	2024-03-27 00:43:13
++++ types/react//ts5.0//test/tsx.tsx	2024-03-27 00:43:13
 @@ -674,15 +674,12 @@
  
  function elementTypeTests() {
@@ -177,29 +208,8 @@
      React.createElement(ReturnPromise);
      // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
      <RenderPromise />;
---- types/react/test/index.ts	2024-03-23 20:26:29.059115816 +0100
-+++ types/react/ts5.0/test/index.ts	2024-03-23 20:26:29.063115906 +0100
-@@ -220,6 +220,9 @@
- // allows null as props
- const FunctionComponent4: React.FunctionComponent = props => null;
- 
-+// undesired: Rejects `false` because of https://github.com/DefinitelyTyped/DefinitelyTyped/issues/18051
-+// leaving here to document limitation and inspect error message
-+// @ts-expect-error
- const FunctionComponent5: React.FunctionComponent = () => false;
- 
- // React.createFactory
-@@ -472,7 +475,7 @@
- // Attributes
- // --------------------------------------------------------------------------
- 
--const children: any[] = ["Hello world", [null], React.createElement("span")];
-+const children: any[] = ["Hello world", [null], React.createElement("span", null)];
- const divStyle: React.CSSProperties = { // CSSProperties
-     flex: "1 1 main-size",
-     backgroundImage: "url('hello.png')",
---- types/react/index.d.ts	2024-03-23 20:26:50.095589102 +0100
-+++ types/react/ts5.0/index.d.ts	2024-03-23 20:28:14.689497627 +0100
+--- types/react//index.d.ts	2024-03-27 00:43:12
++++ types/react//ts5.0//index.d.ts	2024-03-27 00:43:13
 @@ -121,7 +121,7 @@
               * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}
               */
@@ -297,13 +307,3 @@
  interface GlobalJSXElement extends JSX.Element {}
  interface GlobalJSXElementClass extends JSX.ElementClass {}
  interface GlobalJSXElementAttributesProperty extends JSX.ElementAttributesProperty {}
---- types/react/jsx-dev-runtime.d.ts	2024-03-23 20:26:29.059115816 +0100
-+++ types/react/ts5.0/jsx-dev-runtime.d.ts	2024-03-23 20:26:29.063115906 +0100
-@@ -2,7 +2,6 @@
- export { Fragment } from "./";
- 
- export namespace JSX {
--    type ElementType = React.JSX.ElementType;
-     interface Element extends React.JSX.Element {}
-     interface ElementClass extends React.JSX.ElementClass {}
-     interface ElementAttributesProperty extends React.JSX.ElementAttributesProperty {}
