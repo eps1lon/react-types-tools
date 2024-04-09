@@ -64,10 +64,10 @@ git add -A
 
 git apply --reject << 'EOF'
 diff --git a/attw.json b/attw.json
-index 7edc602be9..d2e2aa058f 100644
+index 18c7f91aa7..6a48c52a13 100644
 --- a/attw.json
 +++ b/attw.json
-@@ -1508,6 +1508,7 @@
+@@ -1507,6 +1507,7 @@
          "react-document-meta",
          "react-document-title",
          "react-dom",
@@ -289,7 +289,7 @@ index 3d6bac44b6..c7676c2d49 100644
  /v17/
 +/v18/
 diff --git a/types/react/package.json b/types/react/package.json
-index 5e44959bca..123d6826de 100644
+index 8898123e4f..101cf0eb9b 100644
 --- a/types/react/package.json
 +++ b/types/react/package.json
 @@ -1,7 +1,7 @@
@@ -313,7 +313,7 @@ index 3d6bac44b6..93e307400a 100644
 -/v16/
 -/v17/
 diff --git a/types/react/v18/package.json b/types/react/v18/package.json
-index 5e44959bca..7af448dbb7 100644
+index 8898123e4f..b6f3fa2cbb 100644
 --- a/types/react/v18/package.json
 +++ b/types/react/v18/package.json
 @@ -14,22 +14,6 @@
@@ -377,7 +377,7 @@ index a225ebdee7..03c1422746 100644
              }}
          >
 diff --git a/types/react/v18/test/hooks.tsx b/types/react/v18/test/hooks.tsx
-index a0f473a92e..a74726ce29 100644
+index d8ca70ca26..8d9f682af9 100644
 --- a/types/react/v18/test/hooks.tsx
 +++ b/types/react/v18/test/hooks.tsx
 @@ -371,7 +371,7 @@ function useConcurrentHooks() {
@@ -389,11 +389,21 @@ index a0f473a92e..a74726ce29 100644
          startTransition(async () => {});
  
          // Unlike Effect callbacks, though, there is no possible destructor to return
+@@ -391,7 +391,8 @@ function startTransitionTest() {
+         transitionToPage("/");
+     });
+ 
+-    // Will not type-check in a real project but accepted in DT tests since canary.d.ts is part of compilation.
++    // callback must be synchronous
++    // @ts-expect-error
+     React.startTransition(async () => {});
+ }
+ 
 diff --git a/types/react/v18/test/index.ts b/types/react/v18/test/index.ts
-index 7f6e9267cb..b0fdfc8b8e 100644
+index bc8bb85cdb..86e15eade0 100644
 --- a/types/react/v18/test/index.ts
 +++ b/types/react/v18/test/index.ts
-@@ -718,11 +718,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
+@@ -733,11 +733,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
      const emptyObject: React.ReactNode = {};
      // @ts-expect-error
      const plainObject: React.ReactNode = { dave: true };
@@ -407,10 +417,10 @@ index 7f6e9267cb..b0fdfc8b8e 100644
      };
  }
 diff --git a/types/react/v18/test/tsx.tsx b/types/react/v18/test/tsx.tsx
-index 9bbf90786c..dad9ee4a2b 100644
+index d32b209f20..25c95452e9 100644
 --- a/types/react/v18/test/tsx.tsx
 +++ b/types/react/v18/test/tsx.tsx
-@@ -546,7 +546,7 @@ imgProps.loading = "nonsense";
+@@ -538,7 +538,7 @@ imgProps.loading = "nonsense";
  // @ts-expect-error
  imgProps.decoding = "nonsense";
  type ImgPropsWithRef = React.ComponentPropsWithRef<"img">;
@@ -419,7 +429,7 @@ index 9bbf90786c..dad9ee4a2b 100644
  type ImgPropsWithRefRef = ImgPropsWithRef["ref"];
  type ImgPropsWithoutRef = React.ComponentPropsWithoutRef<"img">;
  // $ExpectType false
-@@ -676,7 +676,7 @@ function reactNodeTests() {
+@@ -668,7 +668,7 @@ function reactNodeTests() {
      <div>{createChildren()}</div>;
      // @ts-expect-error plain objects are not allowed
      <div>{{ dave: true }}</div>;
@@ -428,7 +438,7 @@ index 9bbf90786c..dad9ee4a2b 100644
      <div>{Promise.resolve("React")}</div>;
  }
  
-@@ -756,10 +756,10 @@ function elementTypeTests() {
+@@ -748,10 +748,10 @@ function elementTypeTests() {
      }
  
      const ReturnPromise = () => Promise.resolve("React");
@@ -441,7 +451,7 @@ index 9bbf90786c..dad9ee4a2b 100644
          render() {
              return Promise.resolve("React");
          }
-@@ -849,13 +849,13 @@ function elementTypeTests() {
+@@ -841,13 +841,13 @@ function elementTypeTests() {
      <RenderReactNode />;
      React.createElement(RenderReactNode);
  
@@ -459,7 +469,7 @@ index 9bbf90786c..dad9ee4a2b 100644
      React.createElement(RenderPromise);
  
      <ReturnWithLegacyContext foo="one" />;
-@@ -917,8 +917,7 @@ function managingRefs() {
+@@ -909,8 +909,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -469,7 +479,7 @@ index 9bbf90786c..dad9ee4a2b 100644
          ref={current => {
              // @ts-expect-error
              return function refCleanup(implicitAny) {
-@@ -926,8 +925,7 @@ function managingRefs() {
+@@ -918,8 +917,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -526,7 +536,7 @@ index a225ebdee7..03c1422746 100644
              }}
          >
 diff --git a/types/react/v18/ts5.0/test/hooks.tsx b/types/react/v18/ts5.0/test/hooks.tsx
-index a0f473a92e..a74726ce29 100644
+index d8ca70ca26..8d9f682af9 100644
 --- a/types/react/v18/ts5.0/test/hooks.tsx
 +++ b/types/react/v18/ts5.0/test/hooks.tsx
 @@ -371,7 +371,7 @@ function useConcurrentHooks() {
@@ -538,11 +548,21 @@ index a0f473a92e..a74726ce29 100644
          startTransition(async () => {});
  
          // Unlike Effect callbacks, though, there is no possible destructor to return
+@@ -391,7 +391,8 @@ function startTransitionTest() {
+         transitionToPage("/");
+     });
+ 
+-    // Will not type-check in a real project but accepted in DT tests since canary.d.ts is part of compilation.
++    // callback must be synchronous
++    // @ts-expect-error
+     React.startTransition(async () => {});
+ }
+ 
 diff --git a/types/react/v18/ts5.0/test/index.ts b/types/react/v18/ts5.0/test/index.ts
-index dbb1a7f7ba..36b288beee 100644
+index 4db918f830..933e8e436d 100644
 --- a/types/react/v18/ts5.0/test/index.ts
 +++ b/types/react/v18/ts5.0/test/index.ts
-@@ -721,11 +721,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
+@@ -736,11 +736,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
      const emptyObject: React.ReactNode = {};
      // @ts-expect-error
      const plainObject: React.ReactNode = { dave: true };
@@ -556,10 +576,10 @@ index dbb1a7f7ba..36b288beee 100644
      };
  }
 diff --git a/types/react/v18/ts5.0/test/tsx.tsx b/types/react/v18/ts5.0/test/tsx.tsx
-index 994749830b..464be545bd 100644
+index fb3816fa7a..706e0c3008 100644
 --- a/types/react/v18/ts5.0/test/tsx.tsx
 +++ b/types/react/v18/ts5.0/test/tsx.tsx
-@@ -546,7 +546,7 @@ imgProps.loading = "nonsense";
+@@ -538,7 +538,7 @@ imgProps.loading = "nonsense";
  // @ts-expect-error
  imgProps.decoding = "nonsense";
  type ImgPropsWithRef = React.ComponentPropsWithRef<"img">;
@@ -568,7 +588,7 @@ index 994749830b..464be545bd 100644
  type ImgPropsWithRefRef = ImgPropsWithRef["ref"];
  type ImgPropsWithoutRef = React.ComponentPropsWithoutRef<"img">;
  // $ExpectType false
-@@ -676,7 +676,7 @@ function reactNodeTests() {
+@@ -668,7 +668,7 @@ function reactNodeTests() {
      <div>{createChildren()}</div>;
      // @ts-expect-error plain objects are not allowed
      <div>{{ dave: true }}</div>;
@@ -577,7 +597,7 @@ index 994749830b..464be545bd 100644
      <div>{Promise.resolve("React")}</div>;
  }
  
-@@ -748,7 +748,7 @@ function elementTypeTests() {
+@@ -740,7 +740,7 @@ function elementTypeTests() {
      // @ts-expect-error experimental release channel only
      const FCPromise: React.FC = ReturnPromise;
      class RenderPromise extends React.Component {
@@ -586,7 +606,7 @@ index 994749830b..464be545bd 100644
          render() {
              return Promise.resolve("React");
          }
-@@ -853,9 +853,9 @@ function elementTypeTests() {
+@@ -845,9 +845,9 @@ function elementTypeTests() {
      <ReturnPromise />;
      // @ts-expect-error Only available in experimental release channel
      React.createElement(ReturnPromise);
@@ -598,7 +618,7 @@ index 994749830b..464be545bd 100644
      React.createElement(RenderPromise);
  
      <ReturnWithLegacyContext foo="one" />;
-@@ -917,8 +917,7 @@ function managingRefs() {
+@@ -909,8 +909,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -608,7 +628,7 @@ index 994749830b..464be545bd 100644
          ref={current => {
              // @ts-expect-error
              return function refCleanup(implicitAny) {
-@@ -926,8 +925,7 @@ function managingRefs() {
+@@ -918,8 +917,7 @@ function managingRefs() {
          }}
      />;
      <div
