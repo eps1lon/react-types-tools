@@ -400,7 +400,7 @@ index d8ca70ca26..8d9f682af9 100644
  }
  
 diff --git a/types/react/v18/test/index.ts b/types/react/v18/test/index.ts
-index bc8bb85cdb..86e15eade0 100644
+index 4e3840490f..62e022c182 100644
 --- a/types/react/v18/test/index.ts
 +++ b/types/react/v18/test/index.ts
 @@ -733,11 +733,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
@@ -415,12 +415,12 @@ index bc8bb85cdb..86e15eade0 100644
 -        // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
          const node: Awaited<React.ReactNode> = await Promise.resolve("React");
      };
- }
+ 
 diff --git a/types/react/v18/test/tsx.tsx b/types/react/v18/test/tsx.tsx
-index d32b209f20..25c95452e9 100644
+index 08a4004b53..5b0a7c2aa3 100644
 --- a/types/react/v18/test/tsx.tsx
 +++ b/types/react/v18/test/tsx.tsx
-@@ -538,7 +538,7 @@ imgProps.loading = "nonsense";
+@@ -553,7 +553,7 @@ imgProps.loading = "nonsense";
  // @ts-expect-error
  imgProps.decoding = "nonsense";
  type ImgPropsWithRef = React.ComponentPropsWithRef<"img">;
@@ -429,7 +429,7 @@ index d32b209f20..25c95452e9 100644
  type ImgPropsWithRefRef = ImgPropsWithRef["ref"];
  type ImgPropsWithoutRef = React.ComponentPropsWithoutRef<"img">;
  // $ExpectType false
-@@ -668,7 +668,7 @@ function reactNodeTests() {
+@@ -683,7 +683,7 @@ function reactNodeTests() {
      <div>{createChildren()}</div>;
      // @ts-expect-error plain objects are not allowed
      <div>{{ dave: true }}</div>;
@@ -438,7 +438,7 @@ index d32b209f20..25c95452e9 100644
      <div>{Promise.resolve("React")}</div>;
  }
  
-@@ -748,10 +748,10 @@ function elementTypeTests() {
+@@ -763,10 +763,10 @@ function elementTypeTests() {
      }
  
      const ReturnPromise = () => Promise.resolve("React");
@@ -451,7 +451,7 @@ index d32b209f20..25c95452e9 100644
          render() {
              return Promise.resolve("React");
          }
-@@ -841,13 +841,13 @@ function elementTypeTests() {
+@@ -856,13 +856,13 @@ function elementTypeTests() {
      <RenderReactNode />;
      React.createElement(RenderReactNode);
  
@@ -469,7 +469,7 @@ index d32b209f20..25c95452e9 100644
      React.createElement(RenderPromise);
  
      <ReturnWithLegacyContext foo="one" />;
-@@ -909,8 +909,7 @@ function managingRefs() {
+@@ -924,8 +924,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -479,7 +479,7 @@ index d32b209f20..25c95452e9 100644
          ref={current => {
              // @ts-expect-error
              return function refCleanup(implicitAny) {
-@@ -918,8 +917,7 @@ function managingRefs() {
+@@ -933,8 +932,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -559,7 +559,7 @@ index d8ca70ca26..8d9f682af9 100644
  }
  
 diff --git a/types/react/v18/ts5.0/test/index.ts b/types/react/v18/ts5.0/test/index.ts
-index 4db918f830..933e8e436d 100644
+index 732519e0cc..c27e2ebbe0 100644
 --- a/types/react/v18/ts5.0/test/index.ts
 +++ b/types/react/v18/ts5.0/test/index.ts
 @@ -736,11 +736,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
@@ -574,12 +574,12 @@ index 4db918f830..933e8e436d 100644
 -        // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
          const node: Awaited<React.ReactNode> = await Promise.resolve("React");
      };
- }
+ 
 diff --git a/types/react/v18/ts5.0/test/tsx.tsx b/types/react/v18/ts5.0/test/tsx.tsx
-index fb3816fa7a..706e0c3008 100644
+index 9c65cd1433..0a6b5e1725 100644
 --- a/types/react/v18/ts5.0/test/tsx.tsx
 +++ b/types/react/v18/ts5.0/test/tsx.tsx
-@@ -538,7 +538,7 @@ imgProps.loading = "nonsense";
+@@ -552,7 +552,7 @@ imgProps.loading = "nonsense";
  // @ts-expect-error
  imgProps.decoding = "nonsense";
  type ImgPropsWithRef = React.ComponentPropsWithRef<"img">;
@@ -588,7 +588,7 @@ index fb3816fa7a..706e0c3008 100644
  type ImgPropsWithRefRef = ImgPropsWithRef["ref"];
  type ImgPropsWithoutRef = React.ComponentPropsWithoutRef<"img">;
  // $ExpectType false
-@@ -668,7 +668,7 @@ function reactNodeTests() {
+@@ -682,7 +682,7 @@ function reactNodeTests() {
      <div>{createChildren()}</div>;
      // @ts-expect-error plain objects are not allowed
      <div>{{ dave: true }}</div>;
@@ -597,7 +597,7 @@ index fb3816fa7a..706e0c3008 100644
      <div>{Promise.resolve("React")}</div>;
  }
  
-@@ -740,7 +740,7 @@ function elementTypeTests() {
+@@ -754,7 +754,7 @@ function elementTypeTests() {
      // @ts-expect-error experimental release channel only
      const FCPromise: React.FC = ReturnPromise;
      class RenderPromise extends React.Component {
@@ -606,7 +606,7 @@ index fb3816fa7a..706e0c3008 100644
          render() {
              return Promise.resolve("React");
          }
-@@ -845,9 +845,9 @@ function elementTypeTests() {
+@@ -859,9 +859,9 @@ function elementTypeTests() {
      <ReturnPromise />;
      // @ts-expect-error Only available in experimental release channel
      React.createElement(ReturnPromise);
@@ -618,7 +618,7 @@ index fb3816fa7a..706e0c3008 100644
      React.createElement(RenderPromise);
  
      <ReturnWithLegacyContext foo="one" />;
-@@ -909,8 +909,7 @@ function managingRefs() {
+@@ -923,8 +923,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -628,7 +628,7 @@ index fb3816fa7a..706e0c3008 100644
          ref={current => {
              // @ts-expect-error
              return function refCleanup(implicitAny) {
-@@ -918,8 +917,7 @@ function managingRefs() {
+@@ -932,8 +931,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -639,7 +639,7 @@ index fb3816fa7a..706e0c3008 100644
              return function refCleanup(neverPassed: string) {
              };
 diff --git a/types/react/v18/ts5.0/tsconfig.json b/types/react/v18/ts5.0/tsconfig.json
-index 4fd7cfece3..6791beaaa2 100644
+index 61a90f2187..4a67b345fc 100644
 --- a/types/react/v18/ts5.0/tsconfig.json
 +++ b/types/react/v18/ts5.0/tsconfig.json
 @@ -8,9 +8,7 @@
@@ -667,7 +667,7 @@ index 4fd7cfece3..6791beaaa2 100644
      }
  }
 diff --git a/types/react/v18/tsconfig.json b/types/react/v18/tsconfig.json
-index 4fd7cfece3..6791beaaa2 100644
+index 61a90f2187..4a67b345fc 100644
 --- a/types/react/v18/tsconfig.json
 +++ b/types/react/v18/tsconfig.json
 @@ -8,9 +8,7 @@
