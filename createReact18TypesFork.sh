@@ -64,10 +64,10 @@ git add -A
 
 git apply --reject << 'EOF'
 diff --git a/attw.json b/attw.json
-index 18c7f91aa7..6a48c52a13 100644
+index ce5c33c80d..128c224ed0 100644
 --- a/attw.json
 +++ b/attw.json
-@@ -1507,6 +1507,7 @@
+@@ -1506,6 +1506,7 @@
          "react-document-meta",
          "react-document-title",
          "react-dom",
@@ -143,6 +143,19 @@ index 789ec850d8..3ddfe4ea82 100644
      },
      "devDependencies": {
          "@types/react-dom": "workspace:."
+diff --git a/types/react-dom/v18/test/react-dom-tests.tsx b/types/react-dom/v18/test/react-dom-tests.tsx
+index c2c350b288..8f92b1347b 100644
+--- a/types/react-dom/v18/test/react-dom-tests.tsx
++++ b/types/react-dom/v18/test/react-dom-tests.tsx
+@@ -371,7 +371,7 @@ function createRoot() {
+     root.render(<div>initial render</div>);
+     root.render(false);
+ 
+-    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
++    // @ts-expect-error React 19 feature
+     ReactDOMClient.createRoot(document);
+ }
+ 
 diff --git a/types/react-dom/v18/tsconfig.json b/types/react-dom/v18/tsconfig.json
 index 81e804f9ce..200f7d2c8c 100644
 --- a/types/react-dom/v18/tsconfig.json
