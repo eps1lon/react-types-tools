@@ -64,10 +64,10 @@ git add -A
 
 git apply --reject << 'EOF'
 diff --git a/attw.json b/attw.json
-index ce5c33c80d..128c224ed0 100644
+index 42db5a5831..a5d56918f5 100644
 --- a/attw.json
 +++ b/attw.json
-@@ -1506,6 +1506,7 @@
+@@ -1504,6 +1504,7 @@
          "react-document-meta",
          "react-document-title",
          "react-dom",
@@ -85,14 +85,14 @@ index 3d6bac44b6..c7676c2d49 100644
  /v17/
 +/v18/
 diff --git a/types/react-dom/package.json b/types/react-dom/package.json
-index 789ec850d8..1ebfcb53cf 100644
+index 9e6065022a..1ebfcb53cf 100644
 --- a/types/react-dom/package.json
 +++ b/types/react-dom/package.json
 @@ -1,7 +1,7 @@
  {
      "private": true,
      "name": "@types/react-dom",
--    "version": "18.2.9999",
+-    "version": "18.3.9999",
 +    "version": "19.0.9999",
      "projects": [
          "https://reactjs.org"
@@ -109,7 +109,7 @@ index 3d6bac44b6..93e307400a 100644
 -/v16/
 -/v17/
 diff --git a/types/react-dom/v18/package.json b/types/react-dom/v18/package.json
-index 789ec850d8..3ddfe4ea82 100644
+index 9e6065022a..40089de1ec 100644
 --- a/types/react-dom/v18/package.json
 +++ b/types/react-dom/v18/package.json
 @@ -16,21 +16,11 @@
@@ -194,14 +194,14 @@ index 56cc010f51..dea6c52641 100644
  /v17/
 +/v18/
 diff --git a/types/react-is/package.json b/types/react-is/package.json
-index bfc610417f..c1a64dad57 100644
+index 842f165a8a..c1a64dad57 100644
 --- a/types/react-is/package.json
 +++ b/types/react-is/package.json
 @@ -1,7 +1,7 @@
  {
      "private": true,
      "name": "@types/react-is",
--    "version": "18.2.9999",
+-    "version": "18.3.9999",
 +    "version": "19.0.9999",
      "projects": [
          "https://reactjs.org/"
@@ -217,7 +217,7 @@ index 56cc010f51..93e307400a 100644
 -/v16/
 -/v17/
 diff --git a/types/react-is/v18/package.json b/types/react-is/v18/package.json
-index bfc610417f..b3945918a0 100644
+index 842f165a8a..013d4646aa 100644
 --- a/types/react-is/v18/package.json
 +++ b/types/react-is/v18/package.json
 @@ -6,10 +6,10 @@
@@ -256,14 +256,14 @@ index 3d6bac44b6..c7676c2d49 100644
  /v17/
 +/v18/
 diff --git a/types/react-test-renderer/package.json b/types/react-test-renderer/package.json
-index 127a164a97..786b7f3a9f 100644
+index 85b28077d2..786b7f3a9f 100644
 --- a/types/react-test-renderer/package.json
 +++ b/types/react-test-renderer/package.json
 @@ -1,7 +1,7 @@
  {
      "private": true,
      "name": "@types/react-test-renderer",
--    "version": "18.0.9999",
+-    "version": "18.3.9999",
 +    "version": "19.0.9999",
      "projects": [
          "https://facebook.github.io/react/"
@@ -280,7 +280,7 @@ index 3d6bac44b6..93e307400a 100644
 -/v16/
 -/v17/
 diff --git a/types/react-test-renderer/v18/package.json b/types/react-test-renderer/v18/package.json
-index 127a164a97..8f4fcf3cc6 100644
+index 85b28077d2..be0aa415c5 100644
 --- a/types/react-test-renderer/v18/package.json
 +++ b/types/react-test-renderer/v18/package.json
 @@ -6,7 +6,7 @@
@@ -302,14 +302,14 @@ index 3d6bac44b6..c7676c2d49 100644
  /v17/
 +/v18/
 diff --git a/types/react/package.json b/types/react/package.json
-index 8898123e4f..101cf0eb9b 100644
+index 80ed768a08..101cf0eb9b 100644
 --- a/types/react/package.json
 +++ b/types/react/package.json
 @@ -1,7 +1,7 @@
  {
      "private": true,
      "name": "@types/react",
--    "version": "18.2.9999",
+-    "version": "18.3.9999",
 +    "version": "19.0.9999",
      "projects": [
          "https://react.dev/"
@@ -326,7 +326,7 @@ index 3d6bac44b6..93e307400a 100644
 -/v16/
 -/v17/
 diff --git a/types/react/v18/package.json b/types/react/v18/package.json
-index 8898123e4f..b6f3fa2cbb 100644
+index 80ed768a08..b0bf6b42a9 100644
 --- a/types/react/v18/package.json
 +++ b/types/react/v18/package.json
 @@ -14,22 +14,6 @@
@@ -413,7 +413,7 @@ index d8ca70ca26..8d9f682af9 100644
  }
  
 diff --git a/types/react/v18/test/index.ts b/types/react/v18/test/index.ts
-index 4e3840490f..62e022c182 100644
+index e47ad66b0f..c3503ac56e 100644
 --- a/types/react/v18/test/index.ts
 +++ b/types/react/v18/test/index.ts
 @@ -733,11 +733,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
@@ -572,7 +572,7 @@ index d8ca70ca26..8d9f682af9 100644
  }
  
 diff --git a/types/react/v18/ts5.0/test/index.ts b/types/react/v18/ts5.0/test/index.ts
-index 732519e0cc..c27e2ebbe0 100644
+index ecd0ce0884..9a7eefffe5 100644
 --- a/types/react/v18/ts5.0/test/index.ts
 +++ b/types/react/v18/ts5.0/test/index.ts
 @@ -736,11 +736,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
@@ -589,10 +589,10 @@ index 732519e0cc..c27e2ebbe0 100644
      };
  
 diff --git a/types/react/v18/ts5.0/test/tsx.tsx b/types/react/v18/ts5.0/test/tsx.tsx
-index 9c65cd1433..0a6b5e1725 100644
+index 0cd286fa5e..fe369de701 100644
 --- a/types/react/v18/ts5.0/test/tsx.tsx
 +++ b/types/react/v18/ts5.0/test/tsx.tsx
-@@ -552,7 +552,7 @@ imgProps.loading = "nonsense";
+@@ -553,7 +553,7 @@ imgProps.loading = "nonsense";
  // @ts-expect-error
  imgProps.decoding = "nonsense";
  type ImgPropsWithRef = React.ComponentPropsWithRef<"img">;
@@ -601,7 +601,7 @@ index 9c65cd1433..0a6b5e1725 100644
  type ImgPropsWithRefRef = ImgPropsWithRef["ref"];
  type ImgPropsWithoutRef = React.ComponentPropsWithoutRef<"img">;
  // $ExpectType false
-@@ -682,7 +682,7 @@ function reactNodeTests() {
+@@ -683,7 +683,7 @@ function reactNodeTests() {
      <div>{createChildren()}</div>;
      // @ts-expect-error plain objects are not allowed
      <div>{{ dave: true }}</div>;
@@ -610,7 +610,7 @@ index 9c65cd1433..0a6b5e1725 100644
      <div>{Promise.resolve("React")}</div>;
  }
  
-@@ -754,7 +754,7 @@ function elementTypeTests() {
+@@ -755,7 +755,7 @@ function elementTypeTests() {
      // @ts-expect-error experimental release channel only
      const FCPromise: React.FC = ReturnPromise;
      class RenderPromise extends React.Component {
@@ -619,7 +619,7 @@ index 9c65cd1433..0a6b5e1725 100644
          render() {
              return Promise.resolve("React");
          }
-@@ -859,9 +859,9 @@ function elementTypeTests() {
+@@ -860,9 +860,9 @@ function elementTypeTests() {
      <ReturnPromise />;
      // @ts-expect-error Only available in experimental release channel
      React.createElement(ReturnPromise);
@@ -631,7 +631,7 @@ index 9c65cd1433..0a6b5e1725 100644
      React.createElement(RenderPromise);
  
      <ReturnWithLegacyContext foo="one" />;
-@@ -923,8 +923,7 @@ function managingRefs() {
+@@ -924,8 +924,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -641,7 +641,7 @@ index 9c65cd1433..0a6b5e1725 100644
          ref={current => {
              // @ts-expect-error
              return function refCleanup(implicitAny) {
-@@ -932,8 +931,7 @@ function managingRefs() {
+@@ -933,8 +932,7 @@ function managingRefs() {
          }}
      />;
      <div
