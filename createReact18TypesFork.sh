@@ -64,10 +64,10 @@ git add -A
 
 git apply --reject << 'EOF'
 diff --git a/attw.json b/attw.json
-index 42db5a5831..a5d56918f5 100644
+index 30f8577922..a5c5fcf03a 100644
 --- a/attw.json
 +++ b/attw.json
-@@ -1504,6 +1504,7 @@
+@@ -1501,6 +1501,7 @@
          "react-document-meta",
          "react-document-title",
          "react-dom",
@@ -430,7 +430,7 @@ index e47ad66b0f..c3503ac56e 100644
      };
  
 diff --git a/types/react/v18/test/tsx.tsx b/types/react/v18/test/tsx.tsx
-index 08a4004b53..5b0a7c2aa3 100644
+index 7db252da5d..7504416e04 100644
 --- a/types/react/v18/test/tsx.tsx
 +++ b/types/react/v18/test/tsx.tsx
 @@ -553,7 +553,7 @@ imgProps.loading = "nonsense";
@@ -464,7 +464,7 @@ index 08a4004b53..5b0a7c2aa3 100644
          render() {
              return Promise.resolve("React");
          }
-@@ -856,13 +856,13 @@ function elementTypeTests() {
+@@ -865,13 +865,13 @@ function elementTypeTests() {
      <RenderReactNode />;
      React.createElement(RenderReactNode);
  
@@ -481,8 +481,8 @@ index 08a4004b53..5b0a7c2aa3 100644
 +    // @ts-expect-error Async components are not supported in React 18.
      React.createElement(RenderPromise);
  
-     <ReturnWithLegacyContext foo="one" />;
-@@ -924,8 +924,7 @@ function managingRefs() {
+     // @ts-expect-error See https://github.com/microsoft/TypeScript/issues/59111
+@@ -940,8 +940,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -492,7 +492,7 @@ index 08a4004b53..5b0a7c2aa3 100644
          ref={current => {
              // @ts-expect-error
              return function refCleanup(implicitAny) {
-@@ -933,8 +932,7 @@ function managingRefs() {
+@@ -949,8 +948,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -589,7 +589,7 @@ index ecd0ce0884..9a7eefffe5 100644
      };
  
 diff --git a/types/react/v18/ts5.0/test/tsx.tsx b/types/react/v18/ts5.0/test/tsx.tsx
-index 0cd286fa5e..fe369de701 100644
+index 6ca4e0d5cf..29c99a4f37 100644
 --- a/types/react/v18/ts5.0/test/tsx.tsx
 +++ b/types/react/v18/ts5.0/test/tsx.tsx
 @@ -553,7 +553,7 @@ imgProps.loading = "nonsense";
@@ -619,9 +619,15 @@ index 0cd286fa5e..fe369de701 100644
          render() {
              return Promise.resolve("React");
          }
-@@ -860,9 +860,9 @@ function elementTypeTests() {
+@@ -866,13 +866,13 @@ function elementTypeTests() {
+     <RenderReactNode />;
+     React.createElement(RenderReactNode);
+ 
+-    // @ts-expect-error Only available in experimental release channel
++    // @ts-expect-error Async components are not supported in React 18.
      <ReturnPromise />;
-     // @ts-expect-error Only available in experimental release channel
+-    // @ts-expect-error Only available in experimental release channel
++    // @ts-expect-error Async components are not supported in React 18.
      React.createElement(ReturnPromise);
 -    // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
 +    // @ts-expect-error Async components are not supported in React 18.
@@ -630,8 +636,8 @@ index 0cd286fa5e..fe369de701 100644
 +    // @ts-expect-error Async components are not supported in React 18.
      React.createElement(RenderPromise);
  
-     <ReturnWithLegacyContext foo="one" />;
-@@ -924,8 +924,7 @@ function managingRefs() {
+     // @ts-expect-error See https://github.com/microsoft/TypeScript/issues/59111
+@@ -941,8 +941,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -641,7 +647,7 @@ index 0cd286fa5e..fe369de701 100644
          ref={current => {
              // @ts-expect-error
              return function refCleanup(implicitAny) {
-@@ -933,8 +932,7 @@ function managingRefs() {
+@@ -950,8 +949,7 @@ function managingRefs() {
          }}
      />;
      <div
