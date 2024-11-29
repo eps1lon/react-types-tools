@@ -64,17 +64,17 @@ git add -A
 
 git apply --reject << 'EOF'
 diff --git a/attw.json b/attw.json
-index 30f8577922..a5c5fcf03a 100644
+index aa59897833..ac0c8cdadf 100644
 --- a/attw.json
 +++ b/attw.json
-@@ -1501,6 +1501,7 @@
+@@ -1439,6 +1439,7 @@
+         "react-date-range/v0",
          "react-document-meta",
-         "react-document-title",
          "react-dom",
 +        "react-dom/v18",
-         "react-dual-listbox",
          "react-dynamic-number",
          "react-email-editor",
+         "react-embed-gist",
 diff --git a/types/react-dom/.npmignore b/types/react-dom/.npmignore
 index 3d6bac44b6..c7676c2d49 100644
 --- a/types/react-dom/.npmignore
@@ -302,7 +302,7 @@ index 3d6bac44b6..c7676c2d49 100644
  /v17/
 +/v18/
 diff --git a/types/react/package.json b/types/react/package.json
-index 80ed768a08..101cf0eb9b 100644
+index 02fcc1b90a..1c7b11bdd1 100644
 --- a/types/react/package.json
 +++ b/types/react/package.json
 @@ -1,7 +1,7 @@
@@ -326,7 +326,7 @@ index 3d6bac44b6..93e307400a 100644
 -/v16/
 -/v17/
 diff --git a/types/react/v18/package.json b/types/react/v18/package.json
-index 80ed768a08..b0bf6b42a9 100644
+index 02fcc1b90a..da83ed1d9f 100644
 --- a/types/react/v18/package.json
 +++ b/types/react/v18/package.json
 @@ -14,22 +14,6 @@
@@ -353,10 +353,10 @@ index 80ed768a08..b0bf6b42a9 100644
              "types@<=5.0": {
                  "default": "./ts5.0/jsx-runtime.d.ts"
 diff --git a/types/react/v18/test/elementAttributes.tsx b/types/react/v18/test/elementAttributes.tsx
-index a225ebdee7..03c1422746 100644
+index d81f0cd84c..dea2627170 100644
 --- a/types/react/v18/test/elementAttributes.tsx
 +++ b/types/react/v18/test/elementAttributes.tsx
-@@ -131,26 +131,26 @@ const eventCallbacksTestCases = [
+@@ -133,26 +133,26 @@ const eventCallbacksTestCases = [
  
  function formActionsTest() {
      <form
@@ -413,10 +413,10 @@ index d8ca70ca26..8d9f682af9 100644
  }
  
 diff --git a/types/react/v18/test/index.ts b/types/react/v18/test/index.ts
-index e47ad66b0f..c3503ac56e 100644
+index b601fe5abd..1449f0a990 100644
 --- a/types/react/v18/test/index.ts
 +++ b/types/react/v18/test/index.ts
-@@ -733,11 +733,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
+@@ -768,11 +768,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
      const emptyObject: React.ReactNode = {};
      // @ts-expect-error
      const plainObject: React.ReactNode = { dave: true };
@@ -430,10 +430,10 @@ index e47ad66b0f..c3503ac56e 100644
      };
  
 diff --git a/types/react/v18/test/tsx.tsx b/types/react/v18/test/tsx.tsx
-index 7db252da5d..7504416e04 100644
+index 7c259e2c02..2be4046a3b 100644
 --- a/types/react/v18/test/tsx.tsx
 +++ b/types/react/v18/test/tsx.tsx
-@@ -553,7 +553,7 @@ imgProps.loading = "nonsense";
+@@ -561,7 +561,7 @@ imgProps.loading = "nonsense";
  // @ts-expect-error
  imgProps.decoding = "nonsense";
  type ImgPropsWithRef = React.ComponentPropsWithRef<"img">;
@@ -442,7 +442,7 @@ index 7db252da5d..7504416e04 100644
  type ImgPropsWithRefRef = ImgPropsWithRef["ref"];
  type ImgPropsWithoutRef = React.ComponentPropsWithoutRef<"img">;
  // $ExpectType false
-@@ -683,7 +683,7 @@ function reactNodeTests() {
+@@ -691,7 +691,7 @@ function reactNodeTests() {
      <div>{createChildren()}</div>;
      // @ts-expect-error plain objects are not allowed
      <div>{{ dave: true }}</div>;
@@ -451,7 +451,7 @@ index 7db252da5d..7504416e04 100644
      <div>{Promise.resolve("React")}</div>;
  }
  
-@@ -763,10 +763,10 @@ function elementTypeTests() {
+@@ -771,17 +771,18 @@ function elementTypeTests() {
      }
  
      const ReturnPromise = () => Promise.resolve("React");
@@ -464,7 +464,16 @@ index 7db252da5d..7504416e04 100644
          render() {
              return Promise.resolve("React");
          }
-@@ -865,13 +865,13 @@ function elementTypeTests() {
+     }
+ 
+     const ReturnPromiseReactNode = async ({ children }: { children?: React.ReactNode }) => children;
+-    const FCPromiseReactNode: React.FC = ReturnReactNode;
++    // @ts-expect-error Async components are not supported in React 18.
++    const FCPromiseReactNode: React.FC = ReturnPromiseReactNode;
+     class RenderPromiseReactNode extends React.Component<{ children?: React.ReactNode }> {
+         // @ts-expect-error class components cannot render async
+         async render() {
+@@ -873,13 +874,13 @@ function elementTypeTests() {
      <RenderReactNode />;
      React.createElement(RenderReactNode);
  
@@ -482,7 +491,7 @@ index 7db252da5d..7504416e04 100644
      React.createElement(RenderPromise);
  
      // @ts-expect-error See https://github.com/microsoft/TypeScript/issues/59111
-@@ -940,8 +940,7 @@ function managingRefs() {
+@@ -948,8 +949,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -492,7 +501,7 @@ index 7db252da5d..7504416e04 100644
          ref={current => {
              // @ts-expect-error
              return function refCleanup(implicitAny) {
-@@ -949,8 +948,7 @@ function managingRefs() {
+@@ -957,8 +957,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -512,10 +521,10 @@ index 949a9c6213..d830e68845 100644
  jsx-dev-runtime.d.ts
  jsx-runtime.d.ts
 diff --git a/types/react/v18/ts5.0/test/elementAttributes.tsx b/types/react/v18/ts5.0/test/elementAttributes.tsx
-index a225ebdee7..03c1422746 100644
+index d81f0cd84c..dea2627170 100644
 --- a/types/react/v18/ts5.0/test/elementAttributes.tsx
 +++ b/types/react/v18/ts5.0/test/elementAttributes.tsx
-@@ -131,26 +131,26 @@ const eventCallbacksTestCases = [
+@@ -133,26 +133,26 @@ const eventCallbacksTestCases = [
  
  function formActionsTest() {
      <form
@@ -572,10 +581,10 @@ index d8ca70ca26..8d9f682af9 100644
  }
  
 diff --git a/types/react/v18/ts5.0/test/index.ts b/types/react/v18/ts5.0/test/index.ts
-index ecd0ce0884..9a7eefffe5 100644
+index b01d0c3a7f..71a73a1628 100644
 --- a/types/react/v18/ts5.0/test/index.ts
 +++ b/types/react/v18/ts5.0/test/index.ts
-@@ -736,11 +736,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
+@@ -771,11 +771,10 @@ class RenderChildren extends React.Component<{ children?: React.ReactNode }> {
      const emptyObject: React.ReactNode = {};
      // @ts-expect-error
      const plainObject: React.ReactNode = { dave: true };
@@ -589,10 +598,10 @@ index ecd0ce0884..9a7eefffe5 100644
      };
  
 diff --git a/types/react/v18/ts5.0/test/tsx.tsx b/types/react/v18/ts5.0/test/tsx.tsx
-index 6ca4e0d5cf..29c99a4f37 100644
+index fdd737b1bb..2d1fb846e9 100644
 --- a/types/react/v18/ts5.0/test/tsx.tsx
 +++ b/types/react/v18/ts5.0/test/tsx.tsx
-@@ -553,7 +553,7 @@ imgProps.loading = "nonsense";
+@@ -561,7 +561,7 @@ imgProps.loading = "nonsense";
  // @ts-expect-error
  imgProps.decoding = "nonsense";
  type ImgPropsWithRef = React.ComponentPropsWithRef<"img">;
@@ -601,7 +610,7 @@ index 6ca4e0d5cf..29c99a4f37 100644
  type ImgPropsWithRefRef = ImgPropsWithRef["ref"];
  type ImgPropsWithoutRef = React.ComponentPropsWithoutRef<"img">;
  // $ExpectType false
-@@ -683,7 +683,7 @@ function reactNodeTests() {
+@@ -691,7 +691,7 @@ function reactNodeTests() {
      <div>{createChildren()}</div>;
      // @ts-expect-error plain objects are not allowed
      <div>{{ dave: true }}</div>;
@@ -610,7 +619,7 @@ index 6ca4e0d5cf..29c99a4f37 100644
      <div>{Promise.resolve("React")}</div>;
  }
  
-@@ -755,7 +755,7 @@ function elementTypeTests() {
+@@ -763,7 +763,7 @@ function elementTypeTests() {
      // @ts-expect-error experimental release channel only
      const FCPromise: React.FC = ReturnPromise;
      class RenderPromise extends React.Component {
@@ -619,7 +628,7 @@ index 6ca4e0d5cf..29c99a4f37 100644
          render() {
              return Promise.resolve("React");
          }
-@@ -866,13 +866,13 @@ function elementTypeTests() {
+@@ -874,13 +874,13 @@ function elementTypeTests() {
      <RenderReactNode />;
      React.createElement(RenderReactNode);
  
@@ -637,7 +646,7 @@ index 6ca4e0d5cf..29c99a4f37 100644
      React.createElement(RenderPromise);
  
      // @ts-expect-error See https://github.com/microsoft/TypeScript/issues/59111
-@@ -941,8 +941,7 @@ function managingRefs() {
+@@ -949,8 +949,7 @@ function managingRefs() {
          }}
      />;
      <div
@@ -647,7 +656,7 @@ index 6ca4e0d5cf..29c99a4f37 100644
          ref={current => {
              // @ts-expect-error
              return function refCleanup(implicitAny) {
-@@ -950,8 +949,7 @@ function managingRefs() {
+@@ -958,8 +957,7 @@ function managingRefs() {
          }}
      />;
      <div

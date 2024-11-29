@@ -1,5 +1,5 @@
---- types/react//jsx-dev-runtime.d.ts	2024-03-26 16:07:49
-+++ types/react//ts5.0//jsx-dev-runtime.d.ts	2024-03-26 16:07:49
+--- types/react//jsx-dev-runtime.d.ts	2024-05-22 18:48:23
++++ types/react//ts5.0//jsx-dev-runtime.d.ts	2024-05-22 18:48:23
 @@ -2,7 +2,6 @@
  export { Fragment } from "./";
  
@@ -8,8 +8,8 @@
      interface Element extends React.JSX.Element {}
      interface ElementClass extends React.JSX.ElementClass {}
      interface ElementAttributesProperty extends React.JSX.ElementAttributesProperty {}
---- types/react//jsx-runtime.d.ts	2024-03-26 16:07:49
-+++ types/react//ts5.0//jsx-runtime.d.ts	2024-03-26 16:07:49
+--- types/react//jsx-runtime.d.ts	2024-05-22 18:48:23
++++ types/react//ts5.0//jsx-runtime.d.ts	2024-05-22 18:48:23
 @@ -2,7 +2,6 @@
  export { Fragment } from "./";
  
@@ -18,8 +18,8 @@
      interface Element extends React.JSX.Element {}
      interface ElementClass extends React.JSX.ElementClass {}
      interface ElementAttributesProperty extends React.JSX.ElementAttributesProperty {}
---- types/react//test/experimental.tsx	2024-06-11 17:42:37
-+++ types/react//ts5.0//test/experimental.tsx	2024-06-11 17:42:37
+--- types/react//test/experimental.tsx	2024-11-29 09:06:56
++++ types/react//ts5.0//test/experimental.tsx	2024-11-29 09:06:56
 @@ -74,6 +74,7 @@
  
  function elementTypeTests() {
@@ -38,8 +38,8 @@
      React.createElement(ReturnPromise);
      <RenderPromise />;
      React.createElement(RenderPromise);
---- types/react//test/index.ts	2024-06-11 17:42:37
-+++ types/react//ts5.0//test/index.ts	2024-06-11 17:42:37
+--- types/react//test/index.ts	2024-11-29 09:06:56
++++ types/react//ts5.0//test/index.ts	2024-11-29 09:06:56
 @@ -235,6 +235,9 @@
  // allows null as props
  const FunctionComponent4: React.FunctionComponent = props => null;
@@ -50,7 +50,7 @@
  const FunctionComponent5: React.FunctionComponent = () => false;
  
  // React.createFactory
-@@ -487,7 +490,7 @@
+@@ -522,7 +525,7 @@
  // Attributes
  // --------------------------------------------------------------------------
  
@@ -59,9 +59,9 @@
  const divStyle: React.CSSProperties = { // CSSProperties
      flex: "1 1 main-size",
      backgroundImage: "url('hello.png')",
---- types/react//test/tsx.tsx	2024-07-08 13:05:09
-+++ types/react//ts5.0//test/tsx.tsx	2024-07-08 13:05:09
-@@ -689,15 +689,12 @@
+--- types/react//test/tsx.tsx	2024-11-29 09:06:56
++++ types/react//ts5.0//test/tsx.tsx	2024-11-29 09:06:56
+@@ -697,15 +697,12 @@
  
  function elementTypeTests() {
      const ReturnVoid = () => {};
@@ -77,7 +77,7 @@
      class RenderUndefined extends React.Component {
          render() {
              return undefined;
-@@ -705,7 +702,6 @@
+@@ -713,7 +710,6 @@
      }
  
      const ReturnNull = () => null;
@@ -85,7 +85,7 @@
      class RenderNull extends React.Component {
          render() {
              return null;
-@@ -713,7 +709,6 @@
+@@ -721,7 +717,6 @@
      }
  
      const ReturnNumber = () => 0xeac1;
@@ -93,7 +93,7 @@
      class RenderNumber extends React.Component {
          render() {
              return 0xeac1;
-@@ -721,7 +716,6 @@
+@@ -729,7 +724,6 @@
      }
  
      const ReturnString = () => "Hello, Dave!";
@@ -101,7 +101,7 @@
      class RenderString extends React.Component {
          render() {
              return "Hello, Dave!";
-@@ -729,8 +723,6 @@
+@@ -737,8 +731,6 @@
      }
  
      const ReturnSymbol = () => Symbol.for("react");
@@ -110,7 +110,7 @@
      class RenderSymbol extends React.Component {
          // @ts-expect-error
          render() {
-@@ -739,7 +731,6 @@
+@@ -747,7 +739,6 @@
      }
  
      const ReturnArray = () => [<div key="one" />];
@@ -118,7 +118,7 @@
      class RenderArray extends React.Component {
          render() {
              return [<div key="one" />];
-@@ -747,7 +738,6 @@
+@@ -755,7 +746,6 @@
      }
  
      const ReturnElement = () => <div />;
@@ -126,7 +126,7 @@
      class RenderElement extends React.Component {
          render() {
              return <div />;
-@@ -755,7 +745,6 @@
+@@ -763,7 +753,6 @@
      }
  
      const ReturnReactNode = ({ children }: { children?: React.ReactNode }) => children;
@@ -134,7 +134,7 @@
      class RenderReactNode extends React.Component<{ children?: React.ReactNode }> {
          render() {
              return this.props.children;
-@@ -763,7 +752,7 @@
+@@ -771,7 +760,7 @@
      }
  
      const ReturnPromise = () => Promise.resolve("React");
@@ -143,7 +143,7 @@
      const FCPromise: React.FC = ReturnPromise;
      class RenderPromise extends React.Component {
          // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
-@@ -773,6 +762,7 @@
+@@ -781,6 +770,7 @@
      }
  
      const ReturnPromiseReactNode = async ({ children }: { children?: React.ReactNode }) => children;
@@ -151,7 +151,7 @@
      const FCPromiseReactNode: React.FC = ReturnReactNode;
      class RenderPromiseReactNode extends React.Component<{ children?: React.ReactNode }> {
          // @ts-expect-error class components cannot render async
-@@ -814,8 +804,10 @@
+@@ -822,8 +812,10 @@
      // @ts-expect-error
      React.createElement(RenderVoid);
  
@@ -163,7 +163,7 @@
      React.createElement(ReturnUndefined);
      <RenderUndefined />;
      React.createElement(RenderUndefined);
-@@ -826,14 +818,18 @@
+@@ -834,14 +826,18 @@
      <RenderNull />;
      React.createElement(RenderNull);
  
@@ -184,7 +184,7 @@
      React.createElement(ReturnString);
      <RenderString />;
      React.createElement(RenderString);
-@@ -848,7 +844,10 @@
+@@ -856,7 +852,10 @@
      // @ts-expect-error
      React.createElement(RenderSymbol);
  
@@ -195,7 +195,7 @@
      React.createElement(ReturnArray);
      <RenderArray />;
      React.createElement(RenderArray);
-@@ -859,15 +858,17 @@
+@@ -867,15 +866,17 @@
      <RenderElement />;
      React.createElement(RenderElement);
  
@@ -216,8 +216,8 @@
      React.createElement(ReturnPromise);
      // Will not type-check in a real project but accepted in DT tests since experimental.d.ts is part of compilation.
      <RenderPromise />;
---- types/react//index.d.ts	2024-07-02 12:59:18
-+++ types/react//ts5.0//index.d.ts	2024-06-11 17:42:37
+--- types/react//index.d.ts	2024-11-29 09:06:56
++++ types/react//ts5.0//index.d.ts	2024-11-29 09:06:56
 @@ -121,7 +121,7 @@
               * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-stateless-function-components React Docs}
               */
@@ -253,7 +253,7 @@
          readonly $$typeof: symbol;
      }
  
-@@ -1119,7 +1120,7 @@
+@@ -1125,7 +1126,7 @@
               * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}
               */
              deprecatedLegacyContext?: any,
@@ -262,7 +262,7 @@
          /**
           * Used to declare the types of the props accepted by the
           * component. These types will be checked during rendering
-@@ -1206,7 +1207,7 @@
+@@ -1212,7 +1213,7 @@
               * @see {@link https://legacy.reactjs.org/docs/legacy-context.html#referencing-context-in-lifecycle-methods React Docs}
               */
              deprecatedLegacyContext?: any,
@@ -271,7 +271,7 @@
          propTypes?: WeakValidationMap<P> | undefined;
          contextTypes?: ValidationMap<any> | undefined;
          /**
-@@ -1237,7 +1238,7 @@
+@@ -1243,7 +1244,7 @@
       * @see {@link forwardRef}
       */
      interface ForwardRefRenderFunction<T, P = {}> {
@@ -280,7 +280,7 @@
          /**
           * Used in debugging messages. You might want to set it
           * explicitly if you want to display a different name for
-@@ -4236,7 +4237,6 @@
+@@ -4242,7 +4243,6 @@
  
      // Keep in sync with JSX namespace in ./jsx-runtime.d.ts and ./jsx-dev-runtime.d.ts
      namespace JSX {
@@ -288,7 +288,7 @@
          interface Element extends GlobalJSXElement {}
          interface ElementClass extends GlobalJSXElementClass {}
          interface ElementAttributesProperty extends GlobalJSXElementAttributesProperty {}
-@@ -4298,18 +4298,6 @@
+@@ -4304,18 +4304,6 @@
       * @deprecated Use `React.JSX` instead of the global `JSX` namespace.
       */
      namespace JSX {
@@ -307,7 +307,7 @@
          interface Element extends React.ReactElement<any, any> {}
          interface ElementClass extends React.Component<any> {
              render(): React.ReactNode;
-@@ -4523,7 +4511,6 @@
+@@ -4529,7 +4517,6 @@
  // React.JSX needs to point to global.JSX to keep global module augmentations intact.
  // But we can't access global.JSX so we need to create these aliases instead.
  // Once the global JSX namespace will be removed we replace React.JSX with the contents of global.JSX
